@@ -49,6 +49,7 @@ while True:
         screenShare_count += 1
 
     screen_sharing.append(screen_share)
+    
 
     current_time_ms += (constant/fps_counter)
 
