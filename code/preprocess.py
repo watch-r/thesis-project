@@ -23,7 +23,7 @@ while True:
 
     success, frame = cap.read()
     if success is False:
-        if record_counter == 0:
+        if frame_counter == 0:
             print("unSucessfully Read")
         else:
             print("All Frames read Sucessfully")
