@@ -57,4 +57,4 @@ while True:
     #     break
 
 print(
-    f'Total Frames Read:{record_counter}\nTotal Screen Sharing Time: {screenShare_count}')
+    f'Total Frames Read:{frame_counter}\nTotal Screen Sharing Time: {screenShare_count}')
