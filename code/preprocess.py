@@ -10,15 +10,15 @@ class preprocess:
         self.video_path = video_path
         self.cap = cv.VideoCapture(video_path)
 
-        self.constant = 1000
-        self.fps_counter = 0.5
+        self.constant = 1000 # constant for time conversion
+        self.fps_counter = 0.5 # how many FPS we need to read
 
         # formula: milisecond = second * 1000
         self.current_time_ms = 0 * self.constant
         self.end_time_ms = 45 * self.constant
 
-        self.face_list = []
-        self.screen_list = []
+        self.face_list = [] # webcam faces from the video
+        self.screen_list = [] # screen 
         # self.screen_share = False
         # self.screen_share_count = 0
         self.frame_counter = 0
@@ -42,6 +42,8 @@ class preprocess:
             frame = cv.resize(frame, (1080, 720), fx=0, fy=0,
                               interpolation=cv.INTER_CUBIC)
 
+            # Changable module
+            # first type
             screen = frame[0:700, 0:900]
             face = frame[701:720, 0:1080]
 
