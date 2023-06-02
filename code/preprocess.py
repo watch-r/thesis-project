@@ -24,7 +24,7 @@ while True:
 
     success, frame = cap.read()
     if success is False:
-        if record_counter == 0:
+        if frame_counter == 0:
             print("unSucessfully Read")
         else:
             print("All Frames read Sucessfully")
@@ -58,4 +58,4 @@ while True:
     #     break
 
 print(
-    f'Total Frames Read:{record_counter}\nTotal Screen Sharing Time: {screenShare_count}')
+    f'Total Frames Read:{frame_counter}\nTotal Screen Sharing Time: {screenShare_count}')
