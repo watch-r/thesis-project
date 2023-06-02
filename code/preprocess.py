@@ -3,6 +3,7 @@ import numpy as np
 
 cap = cv.VideoCapture("assets\\videos\\2-cam-1-screen.mp4")
 
+
 constant = 1000
 fps_counter = .5
 
