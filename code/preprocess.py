@@ -31,10 +31,27 @@ while True:
         break
 
     frame_counter += 1
-
+    
+    
+        
     frame = cv.resize(frame, (1080, 720), fx=0, fy=0,
                       interpolation=cv.INTER_CUBIC)
 
+    screen = frame[0:700, 0:900]
+    face = frame[701:720, 0:1080]
+    
+    hight, width, _ = frame.shape
+    
+    frameScreen = frame[0:hight, 0:930]
+    frameFace = frame[0:512, 930:width]
+    
+    cv.imshow('Video', frameScreen)
+
+        
+    # cv.imshow('Video', face)
+    if cv.waitKey(1) == 27:
+        exit(0)
+        
     # converting the video to a processable format
     image_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     ret, thresh = cv.threshold(image_gray, 100, 230, 0)
