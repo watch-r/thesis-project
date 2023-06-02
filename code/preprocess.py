@@ -3,6 +3,7 @@ import numpy as np
 
 # cap = cv.VideoCapture("assets\\videos\\2-cam-1-screen.mp4")
 
+
 class preprocess:
 
     def __init__(self, video_path):
@@ -60,5 +61,3 @@ class preprocess:
         print(
             f'Total Frames Read:{self.frame_counter}')
         return self.face_list, self.screen_list
-
-        

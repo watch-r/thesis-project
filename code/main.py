@@ -1,4 +1,5 @@
-import preprocess as pps, screenShare as sShare
+import preprocess as pps
+import screenShare as sShare
 import numpy as np
 
 video_path = "assets\\videos\\2-cam-1-screen.mp4"
@@ -10,4 +11,3 @@ screen_sharing = screenShare.screenShareDetection(screen_list)
 
 # print(np.array(screen_list))
 # print(np.array(screen_sharing))
-
