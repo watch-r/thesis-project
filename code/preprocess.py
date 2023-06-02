@@ -1,78 +1,64 @@
 import cv2 as cv
 import numpy as np
 
-cap = cv.VideoCapture("assets\\videos\\2-cam-1-screen.mp4")
+# cap = cv.VideoCapture("assets\\videos\\2-cam-1-screen.mp4")
 
+class preprocess:
 
-constant = 1000
-fps_counter = .5
+    def __init__(self, video_path):
+        self.video_path = video_path
+        self.cap = cv.VideoCapture(video_path)
 
-current_time_ms = 0 * constant  # formula: milisecond = second * 1000
-end_time_ms = 45 * constant
+        self.constant = 1000
+        self.fps_counter = 0.5
 
-screen_share = False
-screenShare_count = 0
-frame_counter = 0
-screen_sharing = []
+        # formula: milisecond = second * 1000
+        self.current_time_ms = 0 * self.constant
+        self.end_time_ms = 45 * self.constant
 
+        self.face_list = []
+        self.screen_list = []
+        # self.screen_share = False
+        # self.screen_share_count = 0
+        self.frame_counter = 0
+        # self.screen_sharing = []
 
-while True:
-    # to start the video at a specific time in milliseconds
-    cap.set(cv.CAP_PROP_POS_MSEC, current_time_ms)
+    def video_process(self):
+        while True:
+            # to start the video at a specific time in milliseconds
+            self.cap.set(cv.CAP_PROP_POS_MSEC, self.current_time_ms)
 
-    current_time = int(current_time_ms / constant)
+            success, frame = self.cap.read()
+            if success is False:
+                if self.frame_counter == 0:
+                    print("unSucessfully Read")
+                else:
+                    print("All Frames read Sucessfully")
+                break
 
-    success, frame = cap.read()
-    if success is False:
-        if frame_counter == 0:
-            print("unSucessfully Read")
-        else:
-            print("All Frames read Sucessfully")
-        break
+            self.frame_counter += 1
 
-    frame_counter += 1
-    
-    
+            frame = cv.resize(frame, (1080, 720), fx=0, fy=0,
+                              interpolation=cv.INTER_CUBIC)
+
+            screen = frame[0:700, 0:900]
+            face = frame[701:720, 0:1080]
+
+            hight, width, _ = frame.shape
+
+            frameScreen = frame[0:hight, 0:930]
+            frameFace = frame[0:512, 930:width]
+
+            self.face_list.append(frameFace)
+            self.screen_list.append(frameScreen)
+
+            self.current_time_ms += (self.constant/self.fps_counter)
+
+            # debugging blocks
+            # if self.current_time_ms >= self.end_time_ms:  # loop breaking condition for specific chunk
+            #     break
+        print(
+            f'Total Frames Read:{self.frame_counter}')
+        return self.face_list, self.screen_list
+
         
-    frame = cv.resize(frame, (1080, 720), fx=0, fy=0,
-                      interpolation=cv.INTER_CUBIC)
-
-    screen = frame[0:700, 0:900]
-    face = frame[701:720, 0:1080]
-    
-    hight, width, _ = frame.shape
-    
-    frameScreen = frame[0:hight, 0:930]
-    frameFace = frame[0:512, 930:width]
-    
-    cv.imshow('Video', frameScreen)
-
-        
-    # cv.imshow('Video', face)
-    if cv.waitKey(1) == 27:
-        exit(0)
-        
-    # converting the video to a processable format
-    image_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    ret, thresh = cv.threshold(image_gray, 100, 230, 0)
-    contours, hierarchy = cv.findContours(
-        thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(frame, contours, -1, (0, 255, 0), 1)
-    contour_count = len(contours)
-
-    if not contour_count > 100:
-        screen_share = 0
-    else:
-        screen_share = 1
-        screenShare_count += 1
-
-    screen_sharing.append(screen_share)
-
-    current_time_ms += (constant/fps_counter)
-
-    # debugging blocks
-    # if current_time_ms >= end_time_ms:  # loop breaking condition for specific chunk
-    #     break
-
-print(
-    f'Total Frames Read:{frame_counter}\nTotal Screen Sharing Time: {screenShare_count}')
