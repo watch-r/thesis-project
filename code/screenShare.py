@@ -17,7 +17,6 @@ class screenShare:
                 thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
             cv.drawContours(frame, contours, -1, (0, 255, 0), 1)
             contour_count = len(contours)
-
             if not contour_count > 100:
                 self.screen_share = 0
             else:

@@ -11,7 +11,7 @@ class preprocess:
         self.cap = cv.VideoCapture(video_path)
 
         self.constant = 1000 # constant for time conversion
-        self.fps_counter = 0.5 # how many FPS we need to read
+        self.fps_counter = .5 # how many FPS we need to read
 
         # formula: milisecond = second * 1000
         self.current_time_ms = 0 * self.constant
@@ -24,7 +24,7 @@ class preprocess:
         self.frame_counter = 0
         # self.screen_sharing = []
 
-    def video_process(self):
+    def video_process(self,screenShare,screenShareTime):
         while True:
             # to start the video at a specific time in milliseconds
             self.cap.set(cv.CAP_PROP_POS_MSEC, self.current_time_ms)
@@ -44,22 +44,31 @@ class preprocess:
 
             # Changable module
             # first type
-            screen = frame[0:700, 0:900]
-            face = frame[701:720, 0:1080]
+            # must make type wise function
+            if screenShare == 'no':
+                self.face_list.append(frame)
+            elif screenShare == 'yes':
+                screenShareTime = screenShareTime*self.constant
+                
+                if self.current_time_ms > screenShareTime: # problem in here
+                    self.face_list.append(frame)
+                else:
+                    hight, width, _ = frame.shape
 
-            hight, width, _ = frame.shape
+                    frameScreen = frame[0:hight, 0:930]
+                    frameFace = frame[0:512, 930:width]
 
-            frameScreen = frame[0:hight, 0:930]
-            frameFace = frame[0:512, 930:width]
-
-            self.face_list.append(frameFace)
-            self.screen_list.append(frameScreen)
+                    self.face_list.append(frameFace)
+                    self.screen_list.append(frameScreen)
 
             self.current_time_ms += (self.constant/self.fps_counter)
 
-            # debugging blocks
+            # # debugging blocks
             # if self.current_time_ms >= self.end_time_ms:  # loop breaking condition for specific chunk
             #     break
         print(
             f'Total Frames Read:{self.frame_counter}')
-        return self.face_list, self.screen_list
+        if screenShare == 'no':
+                return self.face_list
+        elif screenShare == 'yes':
+            return self.face_list, self.screen_list
