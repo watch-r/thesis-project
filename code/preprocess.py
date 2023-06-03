@@ -11,7 +11,7 @@ class preprocess:
         self.cap = cv.VideoCapture(video_path)
 
         self.constant = 1000 # constant for time conversion
-        self.fps_counter = .5 # how many FPS we need to read
+        self.fps_counter = 1 # how many FPS we need to read
 
         # formula: milisecond = second * 1000
         self.current_time_ms = 0 * self.constant
@@ -25,6 +25,9 @@ class preprocess:
         # self.screen_sharing = []
 
     def video_process(self,screenShare,screenShareTime):
+        
+        screenShareTime = screenShareTime*self.constant
+        
         while True:
             # to start the video at a specific time in milliseconds
             self.cap.set(cv.CAP_PROP_POS_MSEC, self.current_time_ms)
@@ -45,12 +48,12 @@ class preprocess:
             # Changable module
             # first type
             # must make type wise function
+            
             if screenShare == 'no':
                 self.face_list.append(frame)
             elif screenShare == 'yes':
-                screenShareTime = screenShareTime*self.constant
                 
-                if self.current_time_ms > screenShareTime: # problem in here
+                if self.current_time_ms < screenShareTime: # problem in here
                     self.face_list.append(frame)
                 else:
                     hight, width, _ = frame.shape
