@@ -20,10 +20,10 @@ while var == None:
             screenShareTime=screenShareTime+1)
         
         # Debugging block
-        # cv.imshow('Fcae Wondow', face_list[12])
-        # cv.imshow('Screen Wondow', screen_list[12])
-        # cv.waitKey(0)
-        # cv.destroyAllWindows()
+        cv.imshow('Fcae Wondow', face_list[12])
+        cv.imshow('Screen Wondow', screen_list[12])
+        cv.waitKey(0)
+        cv.destroyAllWindows()
         
         screenShare = sShare.screenShare()
         screen_sharing = screenShare.screenShareDetection(screen_list)
