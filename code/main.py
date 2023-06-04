@@ -19,10 +19,12 @@ while var == None:
             screenShare='yes',
             screenShareTime=screenShareTime+1)
         
-        cv.imshow('Fcae Wondow', face_list[12])
-        cv.imshow('Screen Wondow', screen_list[12])
-        cv.waitKey(0)
-        cv.destroyAllWindows()
+        # Debugging block
+        # cv.imshow('Fcae Wondow', face_list[12])
+        # cv.imshow('Screen Wondow', screen_list[12])
+        # cv.waitKey(0)
+        # cv.destroyAllWindows()
+        
         screenShare = sShare.screenShare()
         screen_sharing = screenShare.screenShareDetection(screen_list)
     elif var == 'n' or var == 'no':
