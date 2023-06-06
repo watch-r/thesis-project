@@ -1,20 +1,26 @@
 import cv2 as cv
 import os
 import face_recognition as fcrecgntn
+import numpy as np
 
-frames=[]
+frames = []
 frame_counter = 0
-current_time_ms =0
+current_time_ms = 0
 
 img_cnt = 1
-face_location=[]
+face_location = []
 
 video_path = 'assets\\videos\\only-faces.mp4'
 
-directory='faces'
+directory = 'faces'
 path = 'assets\\images\\output'
 output_dir = os.path.join(path, directory)
 os.makedirs(output_dir, exist_ok=True)
+
+sr = cv.dnn_superres.DnnSuperResImpl_create()
+path = "models\LapSRN_x8.pb"
+sr.readModel(path)
+sr.setModel("lapsrn", 8)
 
 
 cap = cv.VideoCapture(video_path)
@@ -26,20 +32,17 @@ while True:
         if frame_counter == 0:
             print("unSucessfully Read")
         else:
-            print(f"All Frames read Sucessfully\nTotal Frames: {frame_counter}\nTotal Images: {img_cnt} ")
+            print(
+                f"All Frames read Sucessfully\nTotal Frames: {frame_counter}\nTotal Images: {img_cnt} ")
         break
 
-    scale_percent = 100 # percent of original size
+    scale_percent = 110  # percent of original size
     width = int(frame.shape[1] * scale_percent / 100)
     height = int(frame.shape[0] * scale_percent / 100)
     dim = (width, height)
-  
-    frame_re = cv.resize(frame, dim, fx=0, fy=0,
+    frame_0 = cv.resize(frame, dim, fx=0, fy=0,
                         interpolation=cv.INTER_NEAREST_EXACT)
-    # frame_0 = cv.resize(frame_re, dim, fx=0, fy=0,
-    #                     interpolation=cv.INTER_LANCZOS4)
-    frame_0 = frame_re
-    
+
     rgb_frame = cv.cvtColor(frame_0, cv.COLOR_BGR2RGB)
     face_locations = fcrecgntn.face_locations(rgb_frame)
 
@@ -49,30 +52,26 @@ while True:
         # Display the resulting image
         faces = frame_0[top:bottom, left:right]
         faces = cv.resize(faces, (100, 100))
-        
+
         # Scaling the images
-        scale_percent = 100 # percent of original size
-        width = int(faces.shape[1] * scale_percent / 100)
-        height = int(faces.shape[0] * scale_percent / 100)
-        dim = (width, height)
-        faces = cv.resize(faces, dim, fx=0, fy=0,
-                        interpolation=cv.INTER_NEAREST_EXACT)
-        
-        cv.imwrite(os.path.join(output_dir , f"face-{img_cnt}.png"), faces)
+        result = sr.upsample(faces)
+        sharpen_kernel = np.array([[-1, -1, -1],
+                                   [-1, 9, -1],
+                                   [-1, -1, -1]])
+        faces = cv.filter2D(result, -1, sharpen_kernel)
+
+        cv.imwrite(os.path.join(output_dir, f"face-{img_cnt}.png"), faces)
         img_cnt += 1
-        
+
     frame_counter += 1
     current_time_ms += (1000/.5)
-
-
-
 
 
 # class faceDetect:
 #     def __init__(self):
 #         self.farmes = []
-    
-        
+
+
 #     def video_read(self, path):
 #         cap = cv.VideoCapture(path)
 #         frame_counter = 0
@@ -90,7 +89,7 @@ while True:
 #             frame = cv.resize(frame, (1080, 720), fx=0, fy=0,
 #                               interpolation=cv.INTER_CUBIC)
 #             self.frames.append(frame)
-            
+
 #         return self.frames
 #     def face_read(self):
 #         frames = self.video_read(video_path)
