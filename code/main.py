@@ -1,6 +1,7 @@
 import cv2 as cv
 import preprocess as pps
 import screenShare as sShare
+import faceDetection as fd
 import numpy as np
 
 var = None
@@ -14,7 +15,7 @@ while var == None:
     if var == 'y' or var == 'yes' or var == 'ye':
         print('Screen sharing present = True, Proceeding...')
         screenShareTime = int(input(
-            'At which time the screen sharing is present?(""in Seconds"")'))
+            'At which time the screen sharing is present?(""in Seconds""): '))
         face_list, screen_list = video_processor.video_process(
             screenShare='yes',
             screenShareTime=screenShareTime+1)
@@ -25,8 +26,12 @@ while var == None:
         # cv.waitKey(0)
         # cv.destroyAllWindows()
         
+        
         screenShare = sShare.screenShare()
         screen_sharing = screenShare.screenShareDetection(screen_list)
+        print('Screen Sharing Read Sucessfully\nGoing to next Step: Face Detection: Proceeding...')
+        faceDetect = fd.faceDetect()
+        faceDetect.face_read(face_list)
     elif var == 'n' or var == 'no':
         print('No Screen Sharing!! \nProceeding to next phase...')
         face_list = video_processor.video_process(
