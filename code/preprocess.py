@@ -19,10 +19,7 @@ class preprocess:
 
         self.face_list = [] # webcam faces from the video
         self.screen_list = [] # screen 
-        # self.screen_share = False
-        # self.screen_share_count = 0
         self.frame_counter = 0
-        # self.screen_sharing = []
 
     def video_process(self,screenShare,screenShareTime):
         
@@ -53,7 +50,7 @@ class preprocess:
                 self.face_list.append(frame)
             elif screenShare == 'yes':
                 
-                if self.current_time_ms < screenShareTime: # problem in here
+                if self.current_time_ms < screenShareTime: 
                     self.face_list.append(frame)
                 else:
                     hight, width, _ = frame.shape
