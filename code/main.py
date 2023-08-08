@@ -2,6 +2,7 @@ import cv2 as cv
 import preprocess as pps
 import screenShare as sShare
 import faceDetection as fd
+import faceGroup as fg
 import numpy as np
 
 var = None
@@ -31,7 +32,10 @@ while var == None:
         screen_sharing = screenShare.screenShareDetection(screen_list)
         print('Screen Sharing Read Sucessfully\nGoing to next Step: Face Detection: Proceeding...')
         faceDetect = fd.faceDetect()
-        faceDetect.face_read(face_list)
+        curr_path,home_path = faceDetect.face_read(face_list)
+        print(f'Faces Path: {curr_path}\nMain Path: {home_path}')
+        facegroup = fg.faceGroup(current_path=curr_path,home_path= home_path)
+        facegroup.process()
     elif var == 'n' or var == 'no':
         print('No Screen Sharing!! \nProceeding to next phase...')
         face_list = video_processor.video_process(

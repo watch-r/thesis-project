@@ -22,9 +22,9 @@ class faceDetect:
         # self.sr.readModel("models\LapSRN_x8.pb")
         # self.sr.setModel("lapsrn", 8)
 
-    def face_read(self, face_video):
+    def face_read(self, face_list):
         
-        for frame in face_video:
+        for frame in face_list:
             # scale_percent = 110  # percent of original size
             # width = int(frame.shape[1] * scale_percent / 100)
             # height = int(frame.shape[0] * scale_percent / 100)
@@ -54,3 +54,4 @@ class faceDetect:
                 self.img_cnt += 1
                 
         print(f'Face Detection Sucessful\nTotal Detected faces: {self.img_cnt}')
+        return self.output_dir, self.path
