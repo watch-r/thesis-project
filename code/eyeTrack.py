@@ -176,7 +176,7 @@ class eyeTrack:
                             # L = random.choice(L)
                             # print('Random: '+L)
                             # eye_data1.append(L)
-                            eye_data.append('o')
+                            eye_data.append('n')
                         else:
                             eye_data.append('c')
                 except (IOError, OSError):
