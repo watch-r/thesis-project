@@ -11,7 +11,7 @@ class preprocess:
         self.cap = cv.VideoCapture(video_path)
 
         self.constant = 1000 # constant for time conversion
-        self.fps_counter = .5 # how many FPS we need to read
+        self.fps_counter = float(input("How Many Frames you want to Read per Second: ")) # how many FPS we need to read
 
         # formula: milisecond = second * 1000
         self.current_time_ms = 0 * self.constant

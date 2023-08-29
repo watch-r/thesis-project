@@ -2,8 +2,5 @@
 /models
 /resources
 /.vscode
-code/test/fG-test.py
-code/test/fG-test2.py
-code/test/fG-test3.py
-code/test/fG-test4.py
+code/test/
 /assets/images/output

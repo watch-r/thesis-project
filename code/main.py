@@ -4,10 +4,12 @@ import screenShare as sShare
 import faceDetection as fd
 import faceGroup as fg
 import numpy as np
+import headPose as hp
 
 var = None
 
 video_path = "assets\\videos\\2-cam-1-screen.mp4"
+print('Video path read sucessfully')
 video_processor = pps.preprocess(video_path)
 
 
@@ -35,7 +37,15 @@ while var == None:
         curr_path,home_path = faceDetect.face_read(face_list)
         print(f'Faces Path: {curr_path}\nMain Path: {home_path}')
         facegroup = fg.faceGroup(current_path=curr_path,home_path= home_path)
-        facegroup.process()
+        p1_path,p2_path = facegroup.process()
+        print(f'Identified Path of----\n Person 1:{p1_path}\n Person 2:{p2_path}')
+        
+        print('---Procceding to Next Step Head Pose Detection---')
+        headOrient = hp.headPose()
+        personOneHeadData=headOrient.dataOfHead(p1_path)
+        personTwoHeadData=headOrient.dataOfHead(p1_path)
+        print(f'''Person 1: {personOneHeadData}\nPerson 2: {personTwoHeadData}''')
+        
     elif var == 'n' or var == 'no':
         print('No Screen Sharing!! \nProceeding to next phase...')
         face_list = video_processor.video_process(

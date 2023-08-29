@@ -82,13 +82,16 @@ class faceGroup:
             else:
                 pass
             image_count += 1
+            
         print(f'Image sorting done---\nTotal number of images: {num_of_images}\nNumber of detected images of person-0: {person0_count}\nNumber of detected images of person-1: {person1_count}')
 
         shutil.rmtree(self.out_path)
+        
+        return person0_path, person1_path
 
 
 # * Test Purpose Only
-current_path = 'assets\\images\\output\\faces'
-home_path = 'assets\\images\\output'
-processor = faceGroup(current_path, home_path)
-processor.process()
+# current_path = 'assets\\images\\output\\faces'
+# home_path = 'assets\\images\\output'
+# processor = faceGroup(current_path, home_path)
+# processor.process()
