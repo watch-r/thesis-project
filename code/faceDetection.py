@@ -33,7 +33,7 @@ class faceDetect:
                 faces = frame_0[top:bottom, left:right]
                 faces = cv.resize(faces, (100, 100))
                 cv.imwrite(os.path.join(
-                    self.output_dir, f"face-{self.img_cnt}.png"), faces)
+                    self.output_dir, f"face-{1000000000+self.img_cnt}.png"), faces)
                 self.img_cnt += 1
                 
         print(f'Face Detection Sucessful\nTotal Detected faces: {self.img_cnt}')

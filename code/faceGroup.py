@@ -43,7 +43,7 @@ class faceGroup:
         num_of_images = len(os.listdir(dataset_path))
 
         for i in range(1, num_of_images):
-            image_name = "face-" + str(i) + ".png"
+            image_name = "face-" + str(1000000000+i) + ".png"
             image_path = os.path.join(dataset_path, image_name)
             rawimg = cv.imread(image_path)
             features = rawimg.flatten()
@@ -65,17 +65,17 @@ class faceGroup:
         person1_count = 0
 
         for i in range(1, num_of_images):
-            image_name = "face-" + str(i) + ".png"
+            image_name = "face-" + str(1000000000+i) + ".png"
             image_path = os.path.join(dataset_path, image_name)
             rawimg = cv.imread(image_path)
             # rawimg = sharpen.imgOnly(rawimg)
             if kmeans.labels_[image_count] == 0:
-                image_name = "person_0." + str(person0_count) + ".png"
+                image_name = "person_0." + str(1000000000+person0_count) + ".png"
                 image_path = os.path.join(person0_path, image_name)
                 cv.imwrite(image_path, rawimg)
                 person0_count += 1
             elif kmeans.labels_[image_count] == 1:
-                image_name = "person_1." + str(person1_count) + ".png"
+                image_name = "person_1." + str(1000000000+person1_count) + ".png"
                 image_path = os.path.join(person1_path, image_name)
                 cv.imwrite(image_path, rawimg)
                 person1_count += 1
