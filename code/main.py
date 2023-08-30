@@ -5,6 +5,7 @@ import faceDetection as fd
 import faceGroup as fg
 import numpy as np
 import headPose as hp
+import eyeTrack as et
 
 var = None
 
@@ -32,19 +33,27 @@ while var == None:
         
         screenShare = sShare.screenShare()
         screen_sharing = screenShare.screenShareDetection(screen_list)
+        
         print('Screen Sharing Read Sucessfully\nGoing to next Step: Face Detection: Proceeding...')
         faceDetect = fd.faceDetect()
         curr_path,home_path = faceDetect.face_read(face_list)
         print(f'Faces Path: {curr_path}\nMain Path: {home_path}')
+        
         facegroup = fg.faceGroup(current_path=curr_path,home_path= home_path)
         p1_path,p2_path = facegroup.process()
         print(f'Identified Path of----\n Person 1:{p1_path}\n Person 2:{p2_path}')
         
         print('---Procceding to Next Step Head Pose Detection---')
+        
         headOrient = hp.headPose()
         personOneHeadData=headOrient.dataOfHead(p1_path)
         personTwoHeadData=headOrient.dataOfHead(p1_path)
-        print(f'''Person 1: {personOneHeadData}\nPerson 2: {personTwoHeadData}''')
+        print(f'Person 1: {personOneHeadData}\nPerson 2: {personTwoHeadData}')
+        
+        eyeTrack = et.eyeTrack()
+        personOneEyeData = eyeTrack.process(p1_path)
+        personTwoEyeData = eyeTrack.process(p2_path)
+        print(f'Person 1: {personOneEyeData}\nPerson 2: {personTwoEyeData}')
         
     elif var == 'n' or var == 'no':
         print('No Screen Sharing!! \nProceeding to next phase...')
