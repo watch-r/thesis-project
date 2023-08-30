@@ -47,13 +47,15 @@ while var == None:
         
         headOrient = hp.headPose()
         personOneHeadData=headOrient.dataOfHead(p1_path)
-        personTwoHeadData=headOrient.dataOfHead(p1_path)
-        print(f'Person 1: {personOneHeadData}\nPerson 2: {personTwoHeadData}')
+        personTwoHeadData=headOrient.dataOfHead(p2_path)
+        print(f'Person 1 ({len(personOneHeadData)}): {personOneHeadData}\nPerson 2 ({len(personTwoHeadData)}): {personTwoHeadData}')
+        
+        print('---Procceding to Next Step Eye Gaze Estimation---')
         
         eyeTrack = et.eyeTrack()
         personOneEyeData = eyeTrack.process(p1_path)
         personTwoEyeData = eyeTrack.process(p2_path)
-        print(f'Person 1: {personOneEyeData}\nPerson 2: {personTwoEyeData}')
+        print(f'Person 1 ({len(personOneEyeData)}): {personOneEyeData}\nPerson 2 ({len(personTwoEyeData)}): {personTwoEyeData}')
         
     elif var == 'n' or var == 'no':
         print('No Screen Sharing!! \nProceeding to next phase...')

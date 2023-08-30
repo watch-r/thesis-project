@@ -6,16 +6,17 @@ import os
 class headPose:
     
     def dataOfHead(self,path):
+        data=[]
         for file in os.listdir(path):
             img_path = os.path.join(path, file)
             try:
                 img = cv.imread(img_path)
                 
                 rotation = self.singleImage(img)
-                self.data.append(rotation)
+                data.append(rotation)
             except (IOError, OSError):
                 print(f"Error Finding Picture: {img_path}")
-        return self.data
+        return data
     
     def singleImage(self,img):
         pitch, yaw, roll = self.model.predict(img)
@@ -39,7 +40,6 @@ class headPose:
    
     def __init__(self):
         self.model = SixDRepNet()
-        self.data =[]
         
  
 # path =  'assets\images\output\person1' 
@@ -49,6 +49,3 @@ class headPose:
 # # dataImg = headOrient.singleImage(sinImg)
 # print(f'Person 1: {personOneHeadData}\nTotal Scanned Count: {len(personOneHeadData)}')
 # # print(f'Data: {dataImg}')
-
-# import torch
-# print(torch.cuda.is_available())
